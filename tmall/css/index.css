@@ -1,0 +1,121 @@
+#header{
+    background: #ff0000;
+    height: 32px;
+    color: #999;
+    font-weight: 100;
+    font-size: 12px;
+
+}
+
+#login-contain{
+    line-height: 32px;
+    float: left;
+    color: white;
+}
+#login-contain a{
+    margin-left: 20px;
+    color: white;
+}
+#header-menu{
+    line-height: 10px;
+    font-weight: 100;
+    font-size: 12px;
+    float: right;
+    color: #999;
+}
+#header-menu a{
+    color: white;
+    font-weight: 100;
+    font-size: 12px;
+}
+#header-menu .menu{
+    float: left;
+    padding: 12px;
+    position: relative;
+
+}
+#header-menu .menu-hd:hover .menu-sub{
+    display: block;
+}
+#header-menu .iconfont{
+    font-size: 13px;
+}
+/*#header-menu .iconfont:hover{*/
+    /*color: yellow;*/
+/*}*/
+/*#header-menu a:hover .iconfont{*/
+    /*color: yellow;*/
+/*}*/
+#header-menu :hover a{
+    color: yellow;
+}
+#header-menu :hover i{
+    color: yellow;
+}
+#header-menu .menu-hd:hover{
+    background: white;
+}
+#header-menu .menu-hd:hover a{
+    color: red;
+    text-decoration: underline;
+}
+#header-menu .menu-hd:hover .iconfont{
+    color: red;
+    text-decoration: underline;
+}
+#header-menu i{
+    color: white;
+}
+#header-menu .menu-hd::after{
+    content: '';
+    border: 3px solid transparent;
+    border-top-color: #ddd;
+    position: absolute;
+    right: 4px;
+    top:16px;
+    transform-origin: 3px 1.5px;
+}
+#header-menu .menu-hd:hover::after{
+    transform: rotate(180deg);
+    transition: transform .2s linear;
+}
+body{
+    height: 1000px;
+}
+#header-menu .menu-hd .menu-sub{
+    border: 1px solid #ccc;
+    border-top: 0;
+    position: absolute;
+    top: 32px;
+    left: 0px;
+    width: 100px;
+    display: none;
+}
+#header-menu .menu-hd .menu-sub li{
+    padding: 5px 11px;
+}
+
+#header-menu .menu-hd .menu-sub a:hover{
+    color:#f00;
+    text-decoration: underline;
+}
+#header-menu .menu-hd .menu-sub a{
+    color: #999;
+    text-decoration: none;
+}
+#header-menu .menu-hd .menu-sub h1{
+    top: 0px;
+    padding:0  11px;
+    font-size: xx-small;
+}
+#header-menu .menu:hover a span{
+    color:#fff;
+}
+
+#header-menu .menu a:hover span{
+    color:yellow;
+}
+#header-menu .menu-sub s{
+
+}
+
