@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            background: white;
+            perspective: 800px;
+        }
+        #container{
+            margin: 100px auto;
+            width: 200px;
+            height: 200px;
+            color: white;
+            transform-style:preserve-3d;
+            animation: xxx 2s linear infinite;
+        }
+        @keyframes xxx {
+            from{
+
+            }
+            to{
+                transform: rotateY(360deg);
+            }
+        }
+        div:not(#container){
+            width: 200px;
+            height: 200px;
+            background: rgba(280,60,60,.5);
+            position: absolute;
+            font-size: 40px;
+            text-align: center;
+            line-height: 200px;
+            border-radius: 10px;
+        }
+        .one{
+            transform: rotateX(90deg) translateZ(100px);
+        }
+        .six{
+            transform: rotateX(-90deg) translateZ(100px);
+        }
+        .two{
+            transform: translateZ(100px);
+        }
+        .four{
+            transform: rotateY(-180deg) translateZ(100px);
+        }
+        .five{
+            transform: rotateY(-90deg) translateZ(100px);
+        }
+        .three{
+            transform: rotateY(90deg) translateZ(100px);
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <div class="one">1</div>
+    <div class="two">2</div>
+    <div class="three">3</div>
+    <div class="four">4</div>
+    <div class="five">5</div>
+    <div class="six">6</div>
+</div>
+</body>
+</html>
