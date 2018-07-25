@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>赖冠霖</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    li{
+        list-style: none;
+    }
+    #content{
+        margin: 100px auto;
+        position: relative;
+        width: 810px;
+        height: 540px;
+    }
+    #content .imgs img{
+        position: absolute;
+        display: none;
+    }
+    #content .imgs img.selected{
+        display: block;
+    }
+    #content .nav{
+        position: absolute;
+        float: left;
+        right: 10px;
+        bottom: 10px;
+        z-index: 99999;
+    }
+    #content .arrows{
+        position: absolute;
+        left: 10px;
+        bottom: 10px;
+        z-index: 99999;
+    }
+    #content .nav li,.arrows span{
+        float: left;
+        width: 25px;
+        height: 25px;
+        background: #404040;
+        margin-left: 10px;
+        color: white;
+        text-align: center;
+        line-height: 25px;
+        cursor: pointer;
+    }
+    #content .nav li.selected{
+        background: orange;
+    }
+</style>
+<body>
+<div id="content">
+    <div class="imgs">
+        <ul>
+            <img class="selected" src="../img/WechatIMG8.jpeg" height="540" width="810"/>
+            <img src="../img/WechatIMG9.jpeg" height="540" width="810"/>
+            <img src="../img/WechatIMG10.jpeg" height="540" width="810"/>
+            <img src="../img/timg1.jpg" height="540" width="810"/>
+        </ul>
+    </div>
+    <div class="arrows">
+        <span id="prev"> &lt; </span>
+        <span id="next"> &gt; </span>
+    </div>
+    <ul class="nav">
+        <li class="selected">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ul>
+
+</div>
+<script src="jslib.js"></script>
+
+<script>
+    var aLi = document.getElementsByTagName('li');
+    var aImg = document.getElementsByTagName('img');
+    var oPrev = document.getElementById('prev');
+    var oNext = document.getElementById('next');
+    var oContent = document.getElementById('content')
+    var nowIndex = 0;
+    var zIndex = 4;
+    for(var i=0;i<aLi.length;i++){
+        aLi[i].index = i;
+        aLi[i].onmouseover = function () {
+            nowIndex = this.index;
+            changeImg(this.index);
+        }
+        aLi[i].onselectstart = function(){
+            return false;
+        };
+    }
+    oNext.onclick = function(){
+        nowIndex++;
+        if(nowIndex == aLi.length){
+            nowIndex = 0;
+        }
+        changeImg(nowIndex);
+    }
+    oPrev.onclick = function(){
+        nowIndex--;
+        if(nowIndex == -1){
+            nowIndex = aLi.length - 1;
+        }
+        changeImg(nowIndex);
+    }
+    function changeImg(index){
+        for(var j=0;j<aLi.length;j++){
+            aLi[j].className = '';
+            // aImg[j].className = '';
+        }
+        aImg[index].className = 'selected';
+        // aLi[index].className = 'selected';
+        aImg[index].style.zIndex = ++zIndex;
+        aImg[index].style.opacity = 0;
+        animate(aImg[index],{opacity:100});
+    }
+    oContent.onmouseover = function () {
+        clearInterval(timer);
+    }
+
+    oContent.onmouseout = function () {
+        play();
+    }
+    play();
+    var fn = function(){
+        oNext.onclick();
+    }
+    function play() {
+        timer = setInterval(fn,1000);
+    }
+</script>
+</body>
+</html>
