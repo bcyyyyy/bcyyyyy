@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    #zfx{
+        width: 200px;
+        height: 200px;
+        background: pink;
+        position: absolute;
+    }
+</style>
+<body>
+<div id="zfx">
+
+</div>
+<script>
+    var ol = document.getElementById('zfx');
+
+    ol.onmousedown = function (e) {
+        var il = e.clientX-this.offsetLeft;
+        var it = e.clientY-this.offsetTop;
+        document.onmousemove = function (e) {
+            var l = e.clientX - il;
+            var t = e.clientY - it;
+            if(l> document.documentElement.offsetWidth - ol.offsetWidth){
+                l = document.documentElement.offsetWidth - ol.offsetWidth;
+            }
+            else if(l<0){
+                l =0 ;
+            }
+            if(t>window.innerHeight - ol.offsetHeight){
+
+                t=window.innerHeight - ol.offsetHeight;
+            }
+            else if(t<0){
+                t = 0;
+            }
+        ol.style.left = l+'px';
+        ol.style.top =t+'px';
+        }
+        ol.onmouseup = function () {
+            document.onmousemove = null;
+        }
+    }
+
+</script>
+</body>
+</html>
