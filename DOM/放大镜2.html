@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>赖冠霖的盛世美颜</title>
+</head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+    }
+    #lgl{
+        position: relative;
+        width: 500px;
+        height: 750px;
+        cursor: move;
+    }
+    #lgl .pic img{
+        float: left;
+        width: 500px;
+        height: 750px;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+    }
+    #lgl .kuang{
+        width: 200px;
+        height: 200px;
+        background: #cccccc;
+        position: absolute;
+        opacity: .5;
+        left: 0;
+        margin: 0;
+        padding: 0;
+
+        /*float: left;*/
+    }
+</style>
+<body>
+<div id="lgl">
+    <div class="pic">
+        <img src="../img/u=2007365633,1889220770&fm=11&gp=0.jpg">
+    </div>
+    <div class="kuang">
+
+    </div>
+</div>
+<script>
+    var oDiv = document.getElementsByClassName('kuang');
+    var oDiv2 = document.getElementById('lgl');
+    oDiv2.onmousemove = function (e) {
+        var ll = e.clientX;
+        var tt = e.clientY;
+        l = parseInt(ll) - 100 ;
+        t = parseInt(tt) - 100 ;
+        if(l >= 300 ){
+            l = 300 + 'px';
+        }
+        else if( l <= 0 ){
+            l = 0 + 'px';
+        }
+        if(t >= 550) {
+            t = 550 + 'px';
+        }
+        else if(t <= 0){
+            t = 0+'px';
+        }
+        oDiv[0].style.left = l + 'px' ;
+        oDiv[0].style.top = t + 'px';
+    oDiv2.onmouseout = function () {
+        document.onmousemove = null;
+    }
+
+    }
+</script>
+</body>
+</html>
