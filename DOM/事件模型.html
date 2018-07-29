@@ -23,17 +23,17 @@
     var div3 = document.getElementById('div3');
     //事件的冒泡  和  捕获
 
-//    div1.onclick = function () {
-//        console.log(111111);
-//    }
-////    div2.onclick = function () {
-////        console.log(22222);
-////    }
-//    div3.onclick = function (e) {
-//        console.log(333333);
-////        e.cancelBubble = true;
-//        e.stopPropagation();
-//    }
+   div1.onclick = function () {
+       console.log(111111);
+   }
+   div2.onclick = function () {
+       console.log(22222);
+   }
+   div3.onclick = function (e) {
+       console.log(333333);
+       e.stopPropagation();
+
+   }
 
 //    div1.onclick = function () {
 //        console.log(111111);
@@ -65,7 +65,7 @@
 //        console.log(2222222);
 //    },true);
 //    div3.addEventListener('click',function(){
-//        console.log(33333);
+//        console.log(33333);45
 //    },true);
 
 </script>

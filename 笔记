@@ -1,0 +1,28 @@
+attachEvent('onclick',fn)
+detachEvent('onclick',fn)//有on
+ie 只有冒泡，没有捕获
+冒泡 由里到外
+捕获 true 由外到里
+div.addEventListener('click',fn,ture)//没有on
+div.removeEventListener('click',fn)
+e.stopPropagation();取消冒泡
+事件委托 事件代理
+ie    e.cancelBubble = true;
+标准   e.stopPropagation();
+
+JQuery
+jq对象 -> js原生对象 $obj.get(0) or $obj[0]
+      <-             $(obj)
+window.onload = function (){
+
+      }//两个onload会被替换 html结构和资源加载完执行
+//文档就绪函数
+$(document).ready(function(){
+
+})
+//简写
+$(function(){
+
+})//html结构加载完执行 不需要等资源文件加载完 可以写多个 比onload快
+
+
