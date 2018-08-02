@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    *{
+        margin: 0px;
+        padding: 0px;
+    }
+    li{
+        list-style: none;
+    }
+    #xxx{
+        margin: 100px auto;
+        width: 500px;
+
+    }
+    #xxx ul{
+        height: 30px;
+    }
+    #xxx li{
+        background: #cccccc;
+        width: 120px;
+        height: 30px;
+        float: left;
+        text-align: center;
+        line-height: 30px;
+        margin-right: 20px;
+        color: red;
+    }
+
+    #xxx div{
+        width: 400px;
+        height: 270px;
+        border-top: 1px solid black;
+        background: #cccccc;
+        float: left;
+        position: absolute;
+        display: none;
+    }
+    #xxx li.selected{
+        background: #000000;
+        color:white;
+    }
+    #xxx div.show{
+        display: block;
+    }
+</style>
+<body>
+<div id="xxx">
+    <ul>
+        <li class="selected">
+            111
+        </li>
+        <li>
+            222
+        </li>
+        <li>
+            333
+        </li>
+    </ul>
+        <div class="show">aaa</div>
+        <div>bbb</div>
+        <div>ccc</div>
+</div>
+<script>
+    var aLi = document.getElementsByTagName('li');
+    var oXXX = document.getElementById('xxx');
+    var aDiv = oXXX.getElementsByTagName('div')
+    for (var i=0;i<aLi.length;i++) {
+        aLi[i].index = i;
+        aLi[i].onclick = function() {
+            for (var j=0;j<aLi.length;j++){
+                aDiv[j].className='';
+                aLi[j].className='';
+            }
+            this.className = 'selected';
+            aDiv[this.index].className = 'show';
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

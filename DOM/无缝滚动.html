@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    li{
+        list-style: none;
+    }
+    #container{
+        border: 1px solid black;
+        width: 220px;
+        height: 200px;
+        position:relative;
+        /*margin-left: 10px;*/
+        top: 100px;
+        left: 400px;
+        overflow: hidden;
+    }
+    #container .bk{
+        width: 1000px;
+        position: absolute;
+        left: 0px;
+
+    }
+    #container .bk li{
+        width: 60px;
+        height: 60px;
+        background: #000000;
+        color: white;
+        text-align: center;
+        line-height: 60px;
+        float: left;
+        /*position: relative;*/
+        margin-right: 10px;
+        /*top: 100px;*/
+        /*left: 400px;*/
+    }
+    #container .dir{
+        color: black;
+        float: left;
+        position: absolute;
+        bottom: 50px;
+        left: 30px;
+        margin-left: 10px;
+
+    }
+    #container .dir ul{
+        float: left;
+        margin-left: 10px;
+        background: #cccccc;
+        height: 40px;
+        width: 50px;
+        text-align: center;
+        line-height: 40px;
+    }
+</style>
+<body>
+<div id="container">
+    <div class="bk">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </div>
+    <div class="dir">
+        <ul class="left">
+            向左
+        </ul>
+        <ul class="right">
+            向右
+        </ul>
+    </div>
+</div>
+<script src="jslib.js"></script>
+<script>
+    var aBk = document.getElementsByClassName('bk');
+    var ol = document.getElementsByClassName('left');
+    var or = document.getElementsByClassName('right');
+    var speed = -2;
+     timer1 = setInterval(function () {
+        var l = getComputedStyle(aBk[0], false).left;
+        l = parseInt(l);
+        if (l < -280) {
+            aBk[0].style.left = 0 + 'px';
+        }
+        else if(l > 0){
+            aBk[0].style.left = -280 + 'px';
+         }
+        else {
+            l = parseInt(l) + speed;
+            aBk[0].style.left = l + 'px';
+        }
+    },10);
+    ol[0].onmouseover = function () {
+        speed=-2;
+    }
+
+    or[0].onmouseover = function () {
+        speed = 2;
+    }
+    or[0].onmouseout = function () {
+        speed = -2;
+    }
+</script>
+</body>
+</html>
