@@ -6,10 +6,13 @@
 </head>
 <body>
 <script>
+
+
     function fn(a,b){
         console.log(a,b);
         console.log(this);
     }
+
     var o = {
         name:'zs'
     }
@@ -21,6 +24,11 @@
    var f = fn.bind(o,1,2);
     f();
 //   fn();
+
+
+
+
+
 </script>
 </body>
 </html>
