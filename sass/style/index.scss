@@ -1,0 +1,41 @@
+/* 这个是一个多行注释  */
+//这个是一个单行注释
+/*!  这个是一个强制注释   */
+
+$color:#f00;
+$bg: background;
+$test:test;
+#div1{
+  background: $color;
+  color: $color;
+}
+#div2{
+  font-size: 16px;
+  a{
+    width: 20px;
+    &:hover{
+      color:red;
+    }
+    &-test{
+      height: 10px;
+    }
+  }
+
+}
+#div3{
+  background:{
+    image:url("../../webpack/src/css/WechatIMG10.jpeg");
+    size:cover;
+    position: left,center;
+  }
+  border:{
+    top:{
+      color:#f00;
+      style:solid;
+    }
+  }
+}
+
+##{$test}{
+  #{$bg}:url("../../webpack/src/css/WechatIMG10.jpeg");
+}
