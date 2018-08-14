@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    #price li{
+        list-style: none;
+        width: 200px;
+        height: 50px;
+        background: #444444;
+        margin-bottom: 20px;
+        line-height: 50px;
+        margin-left: 50px;
+        color: white;
+
+    }
+    #price{
+        margin: 0 auto;
+        width: 300px;
+    }
+    #price h1{
+        /*margin: 0 auto;*/
+        line-height: 50px;
+        text-align: center;
+        margin: 10px auto;
+
+    }
+    span{
+        float: right;
+    }
+    #price .red{
+        background: #6D84B4;
+    }
+
+</style>
+<div id="price">
+    <h1>Services</h1>
+    <li v-for="(obj,index) in BookList" :class="{red:obj.active}" @click="fn(obj)">
+        {{obj.name}}<span>{{obj.price}}</span>
+    </li>
+    <hr>
+    total: <span>{{total}}</span>
+</div>
+<script src="vue.js"></script>
+<script>
+    var price = new Vue({
+        el:"#price",
+        data:{
+            BookList:[{
+                name:'陈磊的后求',
+                price:234,
+                active:false
+            },{
+                name:'陈磊的肘子',
+                price:927,
+                active:false
+
+            },{
+                name:'陈磊的大腿',
+                price:247,
+                active:false
+
+            },{
+                name:'陈磊的脑袋',
+                price:316,
+                active:false
+
+            },{
+                name:'陈磊的肚子',
+                price:532,
+                active:false
+
+            }],
+            total:0
+        },
+        methods:{
+            // fn(){
+            //     // this.isRed = true;
+            //     alert(index)
+            // }
+        fn(obj){
+            obj.active = !obj.active;
+            if(obj.active){
+                this.total += obj.price;
+            }
+            else{
+                this.total -= obj.price;
+            }
+        }
+    }
+
+    })
+</script>
+</body>
+</html>

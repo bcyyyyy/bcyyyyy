@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        li{
+            list-style: none;
+        }
+        #app{
+            background: #ffecec;
+            color: #37C7D4;
+            width: 400px;
+            margin: 0 auto;
+            text-align: center;
+            height: 500px;
+
+        }
+        .red{
+            background: #f7f5d1;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <input v-model="val" @keyup="search"  @keyup.enter="add()"> <button @click="add()">add</button>
+    <li v-for="(obj,index) in showArr" :class="{red:obj.active}" @click="obj.active = !obj.active">{{obj.value}} <button @click="del(index)">del</button></li>
+</div>
+<script src="vue.js"></script>
+<script>
+    var vm = new Vue({
+        el:"#app",
+        data:{
+            arr:[],
+            showArr:[],
+            val:'',
+        },
+        methods:{
+            add(){
+                this.arr.push({value:this.val,active:false});
+                this.val='';
+                this.arr.sort(function (a,b) {
+                    return a.value - b.value
+                });
+                this.showArr =this.arr;
+            },
+            search(){
+                var newArr = this.arr.filter((elem,index)=>{
+                    return elem.value.indexOf(this.val) != -1;
+                });
+                this.showArr = newArr;
+            },
+            del(index){
+                this.arr.splice(index,1)
+            }
+        }
+    })
+</script>
+</body>
+</html>
