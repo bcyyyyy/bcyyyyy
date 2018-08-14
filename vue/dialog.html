@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #dialog-box{
+            width: 400px;
+            height: 300px;
+            margin:100px auto;
+        }
+        .dialog-title{
+            height: 40px;
+            background: pink;
+            line-height: 40px;
+        }
+        .close{
+            float: right;
+            line-height: 40px;
+
+        }
+        .content{
+            padding-top: 40px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+<button>登录</button>
+<button>注册</button>
+    <div id="dialog-box">
+        <div class="dialog-title">
+            <span class="title-name"></span>
+            <span class="close">X</span>
+        </div>
+    <div class="content">
+        用户名：<input type="text">
+        <br>
+        密 码：<input type="password">
+    </div>
+    </div>
+</div>
+<script src="vue.js"></script>
+<script type="text/x-template" id="my-dialog">
+
+</script>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+
+        },
+        components:{
+            dialog:{
+                template:'#my-dialog',
+                props:[]
+            }
+        }
+    })
+</script>
+</body>
+</html>
