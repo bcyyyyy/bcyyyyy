@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app1">
+    <demo xx="123" :yy="m2">
+        <p slot="p1">ppppppppppp</p>
+        <p slot="p2">p2p2p2p2p2p</p>
+    </demo>
+    <!--<demo></demo>-->
+</div>
+<div id="app2">
+    <demo></demo>
+</div>
+<script src="vue.js"></script>
+<script id="tmp" type="text/x-template">
+    <div>
+        div1
+        {{xx}}
+        {{yy}}
+        <slot name="p1">
+            <p>我是默认的p1p1p1p1p1p1p</p>
+        </slot>
+        <h1>{{yy}}</h1>
+        <slot name="p2">
+            <span>我也是默认的</span>
+        </slot>
+        <slot>
+
+        </slot>
+
+        <h1>hhhhhh</h1>
+    </div>
+</script>
+<script>
+    //全局组件
+    // Vue.component('demo',{
+    //     template:"<div>div1<h1>hhhhhh</h1></div>"
+    // });
+    new Vue({
+        el:'#app1',
+        data:{
+            msg:'xx',
+            m1:'hh',
+            m2:'nn'
+        },
+        //局部的组件
+        components:{
+            demo:{
+                template:"#tmp",
+                props:['xx','yy']
+            }
+        }
+    }),
+    new Vue({
+        el:'#app2',
+        data:{
+            msg:'nn'
+        }
+    })
+</script>
+</body>
+</html>
