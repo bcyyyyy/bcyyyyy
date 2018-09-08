@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id='root'>
+
+</div>
+<script src="react.development.js"></script>
+<script src="react-dom.development.js"></script>
+<script src="browser.min.js"></script>
+<script type="text/babel">
+    let Welcome = ()=>{
+        return(
+            <div>
+                <h1>hello world</h1>
+                <p>xixixixixi</p>
+            </div>
+        );
+    }
+    ReactDOM.render(
+        <Welcome/>,
+        document.getElementById('root')
+    );
+
+</script>
+</body>
+</html>
