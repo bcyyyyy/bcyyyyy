@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="browser.min.js"></script>
+    <div id="root"></div>
+    <script type="text/babel">
+        class Main extends React.Component{
+            constructor(props){
+                super(props);
+                this.state = {
+                    msg:100
+                }
+            }
+            change(num){
+                if(this.state.msg>0){
+                this.setState({
+                    msg:this.state.msg-num
+                })
+                }
+                else{
+                    this.setState({
+                        msg:this.state.msg
+                    })
+                }
+
+            }
+            render(){
+                return(
+                    <div>
+                        <label>全部士兵数量：{this.state.msg}</label>
+                        <Product myClick={this.change.bind(this)} xx={this.state.msg} num={20}></Product>
+                        <Product myClick={this.change.bind(this)} xx={this.state.msg} num={20}></Product>
+                    </div>
+                )
+        }
+        }
+        class Product extends React.Component{
+            constructor(props){
+                super(props);
+                this.state = {
+                    count:100
+                }
+            }
+            change(){
+                if(this.props.xx != 0){
+                this.setState({
+                    count:this.state.count+this.props.num
+                })}
+                else{
+                    this.setState({
+                        count:this.state.count
+                    })
+                }
+            }
+            render() {
+                return(
+                    <div>
+                        <label>将军a有士兵：{this.state.count}</label><br/>
+                        <button onClick ={()=>{
+                            this.props.myClick(this.props.num);
+                            this.change.bind(this)()
+                        }}>调兵</button>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(
+            <Main></Main>
+            ,
+            document.getElementById('root')
+        )
+    </script>
+</body>
+</html>
