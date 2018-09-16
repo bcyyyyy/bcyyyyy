@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .main{
+            background: #ffcccc;
+        }
+        .title{
+            color: #6D84B4;
+            text-align: center;
+        }
+        .save{
+            text-align: center;
+            list-style: none;
+            padding: 5px;
+            color: #f7f5d1;
+        }
+        .bt{
+            margin: 5px;
+            background: #f7f5d1;
+            color: #6D84B4;
+        }
+
+        .selected{
+            background: #6D84B4;
+        }
+        .list{
+            text-align: center;
+            list-style: none;
+            padding: 10px;
+            color: #f7f5d1;
+        }
+        .selected span{
+            text-decoration:line-through;
+        }
+        .finish{
+            text-align: center;
+            list-style: none;
+            padding: 10px;
+            color: #f7f5d1;
+        }
+    </style>
+</head>
+<body>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="browser.min.js"></script>
+    <div id="root"></div>
+    <script type="text/babel">
+        class Main extends React.Component{
+            constructor(props){
+                super(props);
+                this.state = {
+                    count:0,
+                    list:[
+                        {
+                            name:'吃饭',
+                            isFinished:true,
+                            id:0
+                        },
+                        {
+                            name:'睡觉',
+                            isFinished:true,
+                            id:1
+
+                        },
+                        {
+                            name:'打豆豆',
+                            isFinished:false,
+                            id:2
+
+                        }
+                    ],
+                    msg:2
+                }
+            }
+            saveHandle(val){
+                var arr = this.state.list;
+                if(this.state.list.length == 0 ){
+                    arr.push({id:0,
+                        name:val,
+                        isFinished:false});
+                    this.setState({
+                        list:arr
+                    })
+                }
+                else{
+                console.log(this.state.list.length);
+                arr.push({id:this.state.list[this.state.list.length-1].id+1,
+                    name:val,
+                    isFinished:false});
+                this.setState({
+                    list:arr
+                })
+                }
+
+            }
+            delHandle(index){
+                let arr = this.state.list;
+                arr.splice(index,1);
+
+                this.setState({
+                    list:arr,
+                })
+                this.fn();
+            }
+            fn(){
+                //num 记录被勾选的数量
+                let arr = this.state.list;
+                let num = 0;
+                arr.forEach(item => {
+                    if(item.isFinished){
+                        num++
+                    }
+                });
+                this.setState({
+                    count:num
+                })
+            }
+
+            componentDidMount(){
+                this.fn();
+            }
+            change(index){
+                let arr = this.state.list;
+                //找到数组中索引是index的元素 将isFinished 取非
+                arr[index].isFinished = !arr[index].isFinished;
+                    this.setState({
+                        list: arr
+                    })
+                this.fn();
+
+            }
+            render(){
+                return(
+                    <div className="main">
+                        <h1 className="title">todoList</h1>
+                        <Save myClick={this.saveHandle.bind(this)}></Save>
+                        <ul>
+                            {
+                                this.state.list.map((item,index)=>{
+                                    return <ListItem key={item.id} index={index} item={item} myClick={this.delHandle.bind(this)} myChange={this.change.bind(this)}></ListItem>
+                                })
+                            }
+                            <li className="finish">{this.state.count}已完成/{this.state.list.length}全部</li>
+                        </ul>
+                    </div>
+                )
+            }
+        }
+        class Save extends React.Component{
+            constructor(props){
+                super(props);
+            }
+            save(){
+                if(this.refs.myText.value){
+                    this.props.myClick(this.refs.myText.value);
+                    this.refs.myText.value = '';
+                }
+            }
+            render(){
+                return(
+                    <div className="save">
+                        <div>
+                            <label htmlFor="name">任务：</label>
+                            <input id="name" type="text" ref="myText" placeholder="请输入任务名..."/>
+                        </div>
+                        <button className="bt" onClick={this.save.bind(this)}>保存任务</button>
+                    </div>
+                )
+            }
+        }
+        class ListItem extends  React.Component{
+            constructor(props){
+                super(props);
+                this.state = {
+                    msg:0
+                }
+            }
+            render(){
+                return(
+                    <div className="list">
+                    <li className={this.props.item.isFinished ? 'selected':''}>
+                        <input type="checkbox"
+                               defaultChecked={ this.props.item.isFinished }
+                               onClick={
+                                   ()=>{
+                                       this.props.myChange(this.props.index)
+                                   }
+                               }
+                        />
+                        <span>{this.props.item.name}</span>
+                        <button className="bt" onClick={()=>{
+                            this.props.myClick(this.props.index);
+                    }}>删除</button>
+                    </li>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(
+            <Main/>,
+            document.getElementById('root')
+
+        )
+    </script>
+</body>
+</html>
