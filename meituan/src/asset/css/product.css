@@ -1,0 +1,20 @@
+.pro-container{
+    display: flex;
+    background: white;
+    padding-top: 5px;
+
+}
+.pro-img{
+    width:5rem;
+    height:5rem;
+    margin-right:0.2rem;
+    padding: 5px;
+}
+.pro-content{
+    flex:1;
+    padding-top: 5px;
+    border-bottom: 1px solid gray;
+}
+.pro-sold{
+    float: right;
+}
