@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="oprateSystem.css">
+</head>
+<body>
+<div id="app" class="wrapper">
+
+    <div>
+        <h1 class="title">操作系统进程模拟</h1>
+        <div class="menu-container">
+            <span>请输入名称:</span>
+            <input type="text" v-model="processName">
+            <span>大小:</span>
+            <input type="text" v-model="processSize">
+            <h2 class="menu-item" @click="creat">创建进程</h2>
+            <h2 class="menu-item" @click="timeUp">时间片到</h2>
+            <h2 class="menu-item" @click="block">进程阻塞</h2>
+            <h2 class="menu-item" @click="weakUp">唤醒进程</h2>
+            <h2 class="menu-item" @click="endUp">结束进程</h2>
+        </div>
+
+        <ul class="showMsg">
+            <h2 class="msgTitle">队列信息</h2>
+            <div class="showMsg-queue">
+                <div class="showMsg-ready">
+                    <h3>---就绪队列--- </h3>
+                    <li v-for="val in ready">
+                        <span>{{val.name}}</span>
+                        <span>size:{{val.size}}</span>
+                    </li>
+                </div>
+                <div class="showMsg-blocked">
+                    <h3>---阻塞队列--- </h3>
+                    <li v-for="val in blocked">
+                        <span>{{val.name}}</span>
+                        <span>size:{{val.size}}</span>
+                    </li>
+                </div>
+                <div class="showMsg-running">
+                    <h3>---运行队列---</h3>
+                    <li v-for="val in running">
+                        <span>{{val.name}}</span>
+                        <span>size:{{val.size}}</span>
+                    </li>
+                </div>
+            </div>
+        </ul>
+    </div>
+    <div class="showMemoryDetail">
+        <div class="pageExcel">
+            <h3>页表</h3>
+            <table>
+                <thead>
+                <tr><th>页号</th><th>块号</th><th>交换空间</th><th>存在位</th></tr>
+                </thead>
+                <tbody v-for="val in running">
+                <tr v-for="page in val.page">
+                    <td>{{page.page}}</td>
+                    <td>{{page.piece}}</td>
+                    <td>{{page.swap}}</td>
+                    <td>{{page.exist}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <input type="text" v-model="callSwapPage">
+            <button @click="FIFO">SWAP</button>
+        </div>
+
+        <div class="memory">
+            <div class="memoryMap">
+                <h3>内存位示图</h3>
+                <span v-for="val in memory">{{val}}</span>
+            </div>
+        </div>
+
+        <div class="swap">
+            <div class="swapSpace">
+                <h3>交换空间</h3>
+                <span v-for="val in swapSpace">{{val}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="vue.js"></script>
+<script>
+    class PCB {
+        constructor(name,size){
+            this.name=name;
+            this.size=size;
+            this.page=[];
+        }
+    }
+
+    class PAGE{
+        constructor(page,piece,swap,exist){
+            this.page=page;
+            this.piece=piece;
+            this.swap=swap;
+            this.exist=exist;
+        }
+    }
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            processName:'',
+            processSize:'',
+            callSwapPage:'',
+            physicalMemory:3,
+            ready:[],
+            blocked:[],
+            running:[],
+            memory:[],
+            swapSpace:[]
+        },
+        created(){
+            this.creatMap();
+            this.creatSwapSpace();
+        },
+        methods:{
+            //判断输入框内容是否在某队列
+            findProcess(arr,temp){
+                let flag = true;
+                for(let index=0;index<arr.length;index++){
+                    if(temp==arr[index].name){
+                        flag=false;
+                    }
+                }
+                return flag;
+            },
+
+            //生成随机内存
+            creatMap(){
+                for(let i=0;i<64;i++){
+                    this.memory[i] = Math.floor(Math.random() * 2);
+                }
+            },
+
+            //生成随机交换空间
+            creatSwapSpace(){
+                for(let i=0;i<128;i++){
+                    this.swapSpace[i] = Math.floor(Math.random() * 2);
+                }
+            },
+
+            //进程存入内存与交换空间
+            saveToMemory(PCB,memoryMap,swapSpaceMap,physicalMemory){
+                //计算块数
+                let pageCount = Math.ceil(PCB.size/1024);
+                if(pageCount<physicalMemory){
+                    for(let i=0;i<pageCount;i++){
+                        for(let j=0;j<64;j++){
+                            if(memoryMap[j]==0){
+                                memoryMap[j]=11;
+                                let PageTemp = new PAGE(i,j,-1,1);
+                                PCB.page[i]=PageTemp;
+                                j=64;
+                            }
+                        }
+                    }
+                }else{
+                    //前三位存进物理内存
+                    for(let i=0;i<physicalMemory;i++){
+                        for(let j=0;j<64;j++){
+                            if(memoryMap[j]==0){
+                                memoryMap[j]=11;
+                                let PageTemp = new PAGE(i,j,-1,1);
+                                PCB.page[i]=PageTemp;
+                                j=64;
+                            }
+                        }
+                    }
+
+                    //后面的存入交换空间
+                    for(let i=physicalMemory;i<pageCount;i++){
+                        for(let j=0;j<128;j++){
+                            if(swapSpaceMap[j]==0){
+                                swapSpaceMap[j]=11;
+                                let PageTemp = new PAGE(i,-1,j,0);
+                                PCB.page[i]=PageTemp;
+                                j=128;
+                            }
+                        }
+                    }
+                }
+
+            },
+
+            //内存与交换空间释放
+            releaseMemory(PCB,memoryMap,swapSpaceMap,physicalMemory){
+                let pageNum = PCB.page.length;
+                if(pageNum<physicalMemory){
+                    for(let i=0;i<PCB.page.length;i++){
+                        memoryMap[PCB.page[i].piece]=0;
+                    }
+                    PCB.page=[];
+                }else{
+                    for(let i=0;i<physicalMemory;i++){
+                        memoryMap[PCB.page[i].piece]=0;
+                    }
+                    for(let i=physicalMemory;i<pageNum;i++) {
+                        swapSpaceMap[PCB.page[i].swap]=0;
+                    }
+                    PCB.page=[];
+                }
+
+            },
+
+            //(先进先出FIFO算法)内存与交换空间交换内容
+            FIFO(){
+                if(this.running.length){
+                    let callSwapPageIndex=Math.floor(this.callSwapPage*1/1024);
+
+                    if(callSwapPageIndex>=this.physicalMemory){
+                        let tempArr = this.running[0].page;
+                        this.running[0].page=[];
+                        console.log(tempArr);
+                        let tempPage1=tempArr[0];
+                        let tempPage2=tempArr[callSwapPageIndex];
+
+                        tempArr[0]=new PAGE(tempArr[0].page,tempPage2.piece,tempPage2.swap,tempPage2.exist);
+                        tempArr[callSwapPageIndex]=new PAGE(tempArr[callSwapPageIndex].page,tempPage1.piece,tempPage1.swap,tempPage1.exist);
+
+                        tempPage1=tempArr[0];
+                        tempPage2=tempArr[callSwapPageIndex];
+
+                        for(let i=0;i<this.physicalMemory-1;i++){
+                            tempArr[i]=new PAGE(tempArr[i+1].page,tempArr[i+1].piece,tempArr[i+1].swap,tempArr[i+1].exist);
+                        }
+                        tempArr[this.physicalMemory-1]=new PAGE(tempPage2.page,tempPage2.piece,tempPage2.swap,tempPage2.exist);
+                        tempArr[callSwapPageIndex]=new PAGE(tempPage1.page,tempPage1.piece,tempPage1.swap,tempPage1.exist);
+
+                        this.running[0].page=tempArr;
+                        tempArr=[];
+
+                    }
+
+                }else{
+                    alert("无进程块可交换")
+                }
+
+            },
+
+
+
+
+            //创建进程
+            creat(){
+                if(this.processName){
+                    let flag=this.findProcess(this.ready,this.processName)&&this.findProcess(this.blocked,this.processName)&&this.findProcess(this.running,this.processName);
+                    if (flag) {
+                        var PCBTemp = new PCB(this.processName,this.processSize*1);
+                        this.ready.push(PCBTemp);
+                        this.processName = '';
+                        this.processSize = '';
+                        if(this.running.length==0){
+                            this.running.push(this.ready[0]);
+                            this.saveToMemory(this.running[0],this.memory,this.swapSpace,this.physicalMemory);
+                            this.ready.splice(0,1);
+                        }
+                    }else{
+                        alert('该名称的进程已存在！')
+                    }
+
+                }else{
+                    alert('进程名称不能为空！')
+                }
+            },
+
+            //时间片到
+            timeUp() {
+                if(this.running.length!=0){
+                    this.ready.push(this.running[0]);
+                    this.releaseMemory(this.running[0],this.memory,this.swapSpace,this.physicalMemory);
+                    this.running[0] = this.ready[0];
+                    this.saveToMemory(this.running[0],this.memory,this.swapSpace,this.physicalMemory);
+                    this.ready.splice(0, 1);
+                }
+            },
+
+            //进程阻塞
+            block(){
+
+                this.blocked.push(this.running[0]);
+                this.releaseMemory(this.running[0],this.memory,this.swapSpace,this.physicalMemory);
+                //判断就绪队列是否还有进程
+                if(this.ready.length!=0){
+                    this.running[0]=this.ready[0];
+                    this.saveToMemory(this.running[0],this.memory,this.swapSpace,this.physicalMemory);
+                    this.ready.splice(0,1);
+                }else{
+                    this.running.splice(0,1);
+                    alert("无就绪进程,该操作会使CPU空闲")
+                }
+            },
+
+            //唤醒进程
+            weakUp(){
+                let flag=this.findProcess(this.blocked,this.processName);
+                if(flag){
+                    alert('该进程不在阻塞队列,无法唤醒')
+                }else{
+                    let tempIndex;
+                    for(var index=0;index<this.blocked.length;index++){
+                        if(this.processName==this.blocked[index].name){
+                            tempIndex=index;
+                        }
+                    }
+                    this.ready.push(this.blocked[tempIndex]);
+                    this.blocked.splice(0,1);
+                    this.processName = '';
+                    this.processSize = '';
+
+                    //如果运行队列为空，把就绪首个进程添加到运行队列
+                    if(this.running.length==0){
+                        this.running.push(this.ready[0]);
+                        this.saveToMemory(this.running[0],this.memory,this.swapSpace,this.physicalMemory);
+                        this.ready.splice(0,1);
+                    }
+                }
+            },
+
+            //结束进程
+            endUp(){
+                if(this.running.length!=0){
+                    this.releaseMemory(this.running[0],this.memory,this.swapSpace,this.physicalMemory);
+                    if(this.ready.length!=0){
+                        this.running[0]=this.ready[0];
+                        this.saveToMemory(this.running[0],this.memory,this.swapSpace,this.physicalMemory);
+                        this.ready.splice(0,1);
+                    }else{
+                        this.running.splice(0,1);
+                        alert("无就绪进程,该操作会使CPU空闲")
+                    }
+                }else{
+                    alert("无运行进程")
+                }
+            }
+        }
+    })
+
+</script>
+</body>
+</html>
